@@ -1,0 +1,81 @@
+/* src/styles/AddPlannedExpense.css */
+
+.planned-expense-form {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.date-picker-group {
+  margin-bottom: 24px;
+}
+
+.input-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-help {
+  background-color: rgba(63, 206, 143, 0.1);
+  border-left: 3px solid var(--primary-color);
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.form-help p {
+  color: var(--text-color-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Feldspezifische Stile */
+input[type="date"] {
+  font-family: inherit;
+  color: var(--text-color);
+}
+
+/* Animationen */
+.page-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .planned-expense-form {
+    padding: 16px;
+  }
+
+  .checkbox-label {
+    font-size: 14px;
+  }
+}

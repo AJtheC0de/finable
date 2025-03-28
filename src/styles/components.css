@@ -1,0 +1,349 @@
+/* src/styles/components.css */
+
+/* Modal Dialog */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  max-width: 90%;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  position: relative;
+}
+
+.modal-fullscreen {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+}
+
+.modal-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.confirm-dialog p {
+  margin-bottom: 16px;
+}
+
+/* Bottom Navigation */
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card-bg);
+  display: flex;
+  justify-content: space-around;
+  height: 60px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--text-color-secondary);
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+.nav-item.active {
+  color: var(--primary-color);
+}
+
+.nav-icon {
+  margin-bottom: 4px;
+}
+
+.nav-label {
+  font-size: 10px;
+}
+
+/* Expense Item Styles */
+.transaction-item {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.transaction-actions .button-icon {
+  margin-left: 8px;
+}
+
+/* Fixed Cost Item Styles */
+.fixed-cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fixed-cost-item:last-child {
+  border-bottom: none;
+}
+
+.fixed-cost-header {
+  display: flex;
+  align-items: center;
+}
+
+.fixed-cost-name {
+  font-weight: 500;
+  margin-right: 12px;
+}
+
+.fixed-cost-recurring {
+  background-color: rgba(63, 206, 143, 0.2);
+  color: var(--primary-color);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.fixed-cost-category {
+  color: var(--text-color-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.fixed-cost-amount {
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.fixed-cost-actions {
+  display: flex;
+}
+
+.fixed-cost-actions .button-icon {
+  margin-left: 8px;
+}
+
+/* Planned Expense Item Styles */
+.planned-expenses-list {
+  margin-bottom: 80px; /* Für Bottom Navigation */
+}
+
+.planned-expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--primary-color);
+}
+
+.planned-expense-item.status-warning {
+  border-left-color: #ff9800;
+}
+
+.planned-expense-item.status-overdue {
+  border-left-color: #f44336;
+}
+
+.planned-expense-item:last-child {
+  border-bottom: none;
+}
+
+.planned-expense-header {
+  display: flex;
+  align-items: center;
+}
+
+.planned-expense-name {
+  font-weight: 500;
+  margin-right: 12px;
+}
+
+.planned-expense-deducted {
+  background-color: rgba(63, 206, 143, 0.2);
+  color: var(--primary-color);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.planned-expense-category {
+  color: var(--text-color-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.planned-expense-amount {
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-align: right;
+}
+
+.planned-expense-date {
+  color: var(--text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 4px;
+  text-align: right;
+}
+
+.planned-expense-days {
+  font-size: 12px;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.days-future {
+  color: var(--text-color-secondary);
+}
+
+.days-today {
+  color: #ff9800;
+}
+
+.days-past {
+  color: #f44336;
+}
+
+.planned-expense-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.planned-expense-actions .button-icon {
+  margin-left: 8px;
+}
+
+/* Form Elements */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.help-text {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  margin-top: 4px;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.icon-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+.icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-button.selected {
+  background-color: var(--primary-color);
+  color: var(--dark-bg);
+}
+
+/* Loading indicators */
+.loading-indicator-sm {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  margin-top: 4px;
+}
+
+/* Balance component */
+.current-balance-info {
+  background-color: var(--card-bg);
+  padding: 16px;
+  border-radius: var(--border-radius);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.current-balance-info h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--text-color-secondary);
+}
+
+.current-balance {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+/* Balance type selector */
+.balance-type-selector {
+  margin-bottom: 24px;
+}

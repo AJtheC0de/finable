@@ -1,0 +1,377 @@
+/* src/styles/dashboard.css */
+
+/* Dashboard-Container */
+.dashboard {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Header-Styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.menu-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Dropdown-Menü */
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 200px;
+}
+
+.menu-dropdown ul {
+  list-style: none;
+}
+
+.menu-dropdown li {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  display: flex;
+  align-items: center;
+}
+
+.menu-dropdown li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-dropdown li svg {
+  margin-right: 8px;
+}
+
+/* Kontostand-Karte */
+.balance-card {
+  background-color: var(--primary-color);
+  color: var(--dark-bg);
+  padding: 24px;
+  border-radius: var(--border-radius);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.balance-card h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.balance-amount {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.update-balance-button {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: var(--dark-bg);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.update-balance-button:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Transaktionsbereich */
+.transactions-section {
+  margin-bottom: 80px; /* Platz für den Add-Button unten */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 18px;
+  color: var(--text-color-secondary);
+}
+
+.view-all-button {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Transaktionsliste */
+.transaction-list {
+  list-style: none;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.transaction-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.transaction-category {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.transaction-details {
+  text-align: right;
+}
+
+.transaction-amount {
+  font-weight: 500;
+}
+
+.transaction-date {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  margin-top: 4px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-color-secondary);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+}
+
+.empty-state p {
+  margin-bottom: 16px;
+}
+
+/* Add Button */
+.add-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: var(--dark-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform var(--transition-speed);
+  z-index: 100;
+}
+
+.add-button:hover {
+  transform: scale(1.1);
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+/* dashboard.css */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.refresh-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.refresh-button:hover {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+
+/* In src/styles/dashboard.css hinzufügen */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 28px;
+  width: auto;
+  margin-right: 8px;
+}
+
+/* Stile für geplante Ausgaben im Dashboard */
+.planned-expenses-section {
+  margin-top: 16px;
+  margin-bottom: 24px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.collapsible-header:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.section-title-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.section-icon {
+  margin-right: 8px;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.collapse-actions {
+  display: flex;
+  align-items: center;
+}
+
+.collapse-icon {
+  margin-left: 12px;
+  color: var(--text-color-secondary);
+  font-size: 18px;
+}
+
+.planned-expenses-preview {
+  padding: 0 16px 16px 16px;
+  overflow: hidden;
+}
+
+.planned-expense-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-left: 4px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.planned-expense-card:last-child {
+  margin-bottom: 0;
+}
+
+.planned-expense-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.planned-expense-card.status-warning {
+  border-left-color: #ff9800;
+}
+
+.planned-expense-card.status-overdue {
+  border-left-color: #ff5757;
+}
+
+.planned-expense-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.planned-expense-name {
+  font-weight: 500;
+}
+
+.planned-expense-amount {
+  font-weight: 500;
+}
+
+.planned-expense-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+.planned-expense-date {
+  display: flex;
+  align-items: center;
+}
+
+.planned-expense-countdown {
+  font-size: 12px;
+}
+
+.days-future {
+  color: var(--text-color-secondary);
+}
+
+.days-today {
+  color: #ff9800;
+  font-weight: 500;
+}
+
+.days-past {
+  color: #ff5757;
+  font-weight: 500;
+}
+
+/* Anpassungen für die bestehenden Styles */
+.transactions-section {
+  margin-bottom: 16px;
+}

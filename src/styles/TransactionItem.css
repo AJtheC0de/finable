@@ -1,0 +1,88 @@
+/* src/styles/TransactionItem.css (aktualisiert) */
+.transaction-item-container {
+  margin-bottom: 1px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.transaction-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.transaction-category {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.transaction-details {
+  text-align: right;
+  margin-right: 16px;
+}
+
+.transaction-amount {
+  font-weight: 500;
+}
+
+.transaction-date {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  margin-top: 4px;
+}
+
+.transaction-actions {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.transaction-item:hover .transaction-actions {
+  opacity: 1;
+}
+
+.action-button {
+  background: transparent;
+  border: none;
+  color: var(--text-color-secondary);
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 4px;
+}
+
+.action-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.action-button.edit:hover {
+  color: var(--primary-color);
+}
+
+.action-button.delete:hover {
+  color: #ff5757;
+}
+
+@media (max-width: 480px) {
+  .transaction-actions {
+    opacity: 1;
+  }
+}

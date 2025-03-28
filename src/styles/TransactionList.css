@@ -1,0 +1,25 @@
+/* src/components/TransactionList.css */
+.transaction-list-container {
+  margin-bottom: 20px;
+}
+
+.transaction-list {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.loading-indicator-sm {
+  text-align: center;
+  padding: 10px;
+  color: var(--text-color-secondary);
+  font-size: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  color: var(--text-color-secondary);
+}
