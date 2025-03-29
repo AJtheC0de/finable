@@ -1,4 +1,3 @@
-// formatters.js is empty
 // src/utils/formatters.js
 
 /**

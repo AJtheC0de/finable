@@ -2,16 +2,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { signIn, signUp } from "../utils/supabaseClient";
+import { signIn, signUp, signInWithGoogle } from "../utils/supabaseClient";
 import { useAuth } from "../context/AuthContext";
+import { IoLogoGoogle, IoEye, IoEyeOff } from "react-icons/io5";
 import "../styles/index.css";
+import "../styles/login.css";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -22,8 +27,48 @@ const Login = () => {
     return null;
   }
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Bitte füllen Sie alle Felder aus.");
+      return false;
+    }
+
+    if (!isLogin && password !== confirmPassword) {
+      setError("Die Passwörter stimmen nicht überein.");
+      return false;
+    }
+
+    // Einfache E-Mail-Validierung
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+      return false;
+    }
+
+    // Passwort-Komplexität (mindestens 8 Zeichen)
+    if (!isLogin && password.length < 8) {
+      setError("Das Passwort muss mindestens 8 Zeichen lang sein.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleAuth = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -32,14 +77,37 @@ const Login = () => {
         await signIn(email, password);
       } else {
         await signUp(email, password);
-        // Optional: Nach der Registrierung eine Erfolgsbenachrichtigung anzeigen
+        // Bei erfolgreicher Registrierung eine Erfolgsbenachrichtigung anzeigen
+        alert(
+          "Registrierung erfolgreich! Bitte überprüfen Sie Ihre E-Mails, um Ihr Konto zu bestätigen."
+        );
+        // Nach der Registrierung zur Login-Ansicht wechseln
+        setIsLogin(true);
       }
       // Der Auth-State wird automatisch aktualisiert und die ProtectedRoute wird navigieren
     } catch (error) {
+      console.error("Auth error:", error);
       setError(
         isLogin
           ? "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten."
           : "Registrierung fehlgeschlagen. Bitte versuchen Sie es mit einer anderen E-Mail."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      await signInWithGoogle();
+      // Die Weiterleitung wird von Supabase und der ProtectedRoute behandelt
+    } catch (error) {
+      console.error("Google Auth error:", error);
+      setError(
+        "Google-Anmeldung fehlgeschlagen. Bitte versuchen Sie es später erneut."
       );
     } finally {
       setLoading(false);
@@ -58,20 +126,26 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+        <h2>{isLogin ? "Anmelden" : "Registrieren"}</h2>
 
         <div className="toggle-container">
           <div
             className={`toggle-option ${isLogin ? "active" : ""}`}
-            onClick={() => setIsLogin(true)}
+            onClick={() => {
+              setIsLogin(true);
+              setError("");
+            }}
           >
-            Login
+            Anmelden
           </div>
           <div
             className={`toggle-option ${!isLogin ? "active" : ""}`}
-            onClick={() => setIsLogin(false)}
+            onClick={() => {
+              setIsLogin(false);
+              setError("");
+            }}
           >
-            Sign Up
+            Registrieren
           </div>
         </div>
 
@@ -87,20 +161,57 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="email"
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="password">Passwort</label>
-            <input
-              id="password"
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-input-container">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete={isLogin ? "current-password" : "new-password"}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+                tabIndex="-1"
+              >
+                {showPassword ? <IoEyeOff /> : <IoEye />}
+              </button>
+            </div>
           </div>
+
+          {!isLogin && (
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Passwort bestätigen</label>
+              <div className="password-input-container">
+                <input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  className="form-control"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={toggleConfirmPasswordVisibility}
+                  tabIndex="-1"
+                >
+                  {showConfirmPassword ? <IoEyeOff /> : <IoEye />}
+                </button>
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"
@@ -114,10 +225,26 @@ const Login = () => {
               : "Registrieren"}
           </button>
         </form>
+
+        <div className="separator">
+          <span>ODER</span>
+        </div>
+
+        {/* Google-Button im Marken-Design */}
+        <button
+          type="button"
+          className="google-button"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+        >
+          <div className="google-icon">
+            <IoLogoGoogle />
+          </div>
+          {isLogin ? "Mit Google anmelden" : "Mit Google registrieren"}
+        </button>
       </motion.div>
     </div>
   );
 };
 
 export default Login;
-// Login.jsx

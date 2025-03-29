@@ -181,11 +181,13 @@ h1 {
 .balance-card h2 {
   font-size: 18px;
   margin-bottom: 8px;
+  color: white;
 }
 
 .balance-amount {
   font-size: 32px;
   font-weight: 500;
+  color: white;
 }
 
 .section-title {

@@ -1,0 +1,93 @@
+/* Google-Button Styles */
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: 8px;
+}
+
+.google-button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.google-button:active {
+  background-color: #eee;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.google-icon {
+  margin-right: 12px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.google-icon svg {
+  color: #4285f4;
+}
+
+/* Google-Button mit dem typischen Google-Farben-Look */
+.google-button-branded {
+  position: relative;
+  background-color: #4285f4;
+  color: white;
+  padding-left: 48px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.google-button-branded:hover {
+  background-color: #357ae8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.google-button-branded .google-icon {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  bottom: 1px;
+  width: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+/* Eleganter Separator */
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: var(--text-color-secondary);
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.separator span {
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}

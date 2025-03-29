@@ -14,6 +14,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import "./styles/index.css";
 import "./styles/components.css";
 import "./styles/dashboard.css";
+import "./styles/login.css"; // Neue Login-Styles
 
 // Pages
 import Login from "./pages/Login";
@@ -21,6 +22,7 @@ import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import AddIncome from "./pages/AddIncome";
 import AddFixedCost from "./pages/AddFixedCost";
+import AddFixedCostFromPlanned from "./pages/AddFixedCostFromPlanned"; // Neue Komponente
 import AddPlannedExpense from "./pages/AddPlannedExpense";
 import Categories from "./pages/Categories";
 import FixedCosts from "./pages/FixedCosts";
@@ -98,6 +100,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AddFixedCost />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Neue Route für das Hinzufügen von Fixkosten aus geplanten Ausgaben */}
+            <Route
+              path="/add-fixed-cost-from-planned/:id"
+              element={
+                <ProtectedRoute>
+                  <AddFixedCostFromPlanned />
                 </ProtectedRoute>
               }
             />

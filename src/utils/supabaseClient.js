@@ -2,9 +2,9 @@
 import { createClient } from "@supabase/supabase-js";
 
 // Ersetzen Sie diese Werte mit Ihren eigenen Supabase-Anmeldedaten
-const supabaseUrl = "https://qntqzmrsaftizalyshnq.supabase.co";
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFudHF6bXJzYWZ0aXphbHlzaG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMwMjMzMDYsImV4cCI6MjA1ODU5OTMwNn0.JzcsaVkE4ZsYoulHtSJ60crjOkYeMpVRLQXkfkbh7hU";
+// supabaseClient.js
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 // Erstellen eines Supabase-Clients
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -43,10 +43,51 @@ export const signIn = async (email, password) => {
 
 export const signOut = async () => {
   try {
+    // Versuche, den aktuellen Benutzer zu bekommen, um zu prüfen, ob eine Session existiert
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      // Wenn kein Benutzer gefunden wurde, clearSession verwenden - safer Option
+      await supabase.auth.clearSession();
+      // Lokalen Speicher für Auth-bezogene Daten löschen
+      localStorage.removeItem("supabase.auth.token");
+      return;
+    }
+
+    // Wenn ein Benutzer existiert, normales signOut durchführen
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   } catch (error) {
     console.error("Fehler beim Logout:", error.message);
+
+    // Fallback: Versuche die Session zu löschen, wenn signOut fehlschlägt
+    try {
+      await supabase.auth.clearSession();
+      localStorage.removeItem("supabase.auth.token");
+    } catch (clearError) {
+      console.error("Fehler beim Löschen der Session:", clearError.message);
+    }
+
+    // Nicht den Fehler werfen, sondern einfach zurückgeben
+    // damit der Benutzer nicht in einer Situation steckt, in der er sich nicht abmelden kann
+  }
+};
+
+export const signInWithGoogle = async () => {
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Fehler bei der Google-Anmeldung:", error.message);
     throw error;
   }
 };
@@ -441,6 +482,28 @@ export const fetchPlannedExpenses = async (userId) => {
     return data || [];
   } catch (error) {
     console.error("Fehler beim Abrufen der geplanten Ausgaben:", error.message);
+    throw error;
+  }
+};
+
+// Einzelne geplante Ausgabe abrufen
+export const fetchPlannedExpense = async (id) => {
+  try {
+    const { data, error } = await supabase
+      .from("planned_expenses")
+      .select(
+        `
+        *,
+        categories(id, name, icon)
+      `
+      )
+      .eq("id", id)
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Fehler beim Abrufen der geplanten Ausgabe:", error.message);
     throw error;
   }
 };
