@@ -7,6 +7,8 @@ import { useAuth } from "../context/AuthContext";
 import { IoLogoGoogle, IoEye, IoEyeOff } from "react-icons/io5";
 import "../styles/index.css";
 import "../styles/login.css";
+// Import des Logos
+import finableLogo from "../assets/images/finable.svg";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -116,7 +118,8 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="logo">
+      <div className="logo-container">
+        <img src={finableLogo} alt="finable Logo" className="auth-logo" />
         <h1>finable</h1>
       </div>
 
@@ -182,6 +185,9 @@ const Login = () => {
                 className="password-toggle"
                 onClick={togglePasswordVisibility}
                 tabIndex="-1"
+                aria-label={
+                  showPassword ? "Passwort verbergen" : "Passwort anzeigen"
+                }
               >
                 {showPassword ? <IoEyeOff /> : <IoEye />}
               </button>
@@ -206,6 +212,11 @@ const Login = () => {
                   className="password-toggle"
                   onClick={toggleConfirmPasswordVisibility}
                   tabIndex="-1"
+                  aria-label={
+                    showConfirmPassword
+                      ? "Passwort verbergen"
+                      : "Passwort anzeigen"
+                  }
                 >
                   {showConfirmPassword ? <IoEyeOff /> : <IoEye />}
                 </button>
@@ -230,7 +241,7 @@ const Login = () => {
           <span>ODER</span>
         </div>
 
-        {/* Google-Button im Marken-Design */}
+        {/* Google-Button */}
         <button
           type="button"
           className="google-button"

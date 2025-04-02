@@ -22,11 +22,12 @@ import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import AddIncome from "./pages/AddIncome";
 import AddFixedCost from "./pages/AddFixedCost";
-import AddFixedCostFromPlanned from "./pages/AddFixedCostFromPlanned"; // Neue Komponente
+import AddFixedCostFromPlanned from "./pages/AddFixedCostFromPlanned"; // Neue Komponente für Konvertierung
 import AddPlannedExpense from "./pages/AddPlannedExpense";
 import Categories from "./pages/Categories";
 import FixedCosts from "./pages/FixedCosts";
 import Expenses from "./pages/Expenses";
+import Incomes from "./pages/Incomes"; // Neue Komponente für Einnahmen
 import PlannedExpenses from "./pages/PlannedExpenses";
 import UpdateBalance from "./pages/UpdateBalance";
 
@@ -85,12 +86,21 @@ function App() {
               }
             />
 
-            {/* Route für AddIncome */}
+            {/* Route für Einnahmen */}
             <Route
               path="/add-income"
               element={
                 <ProtectedRoute>
                   <AddIncome />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/incomes"
+              element={
+                <ProtectedRoute>
+                  <Incomes />
                 </ProtectedRoute>
               }
             />

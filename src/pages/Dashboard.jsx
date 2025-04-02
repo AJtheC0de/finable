@@ -15,6 +15,7 @@ import {
   signOut,
   fetchBalance,
   fetchExpenses,
+  fetchIncomes,
   fetchFixedCosts,
   fetchPlannedExpenses,
 } from "../utils/supabaseClient";
@@ -32,6 +33,8 @@ const Dashboard = () => {
 
   const [balance, setBalance] = useState(null);
   const [transactions, setTransactions] = useState([]);
+  const [incomes, setIncomes] = useState([]);
+  const [combinedTransactions, setCombinedTransactions] = useState([]);
   const [plannedExpenses, setPlannedExpenses] = useState([]);
   const [fixedCosts, setFixedCosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,8 +58,30 @@ const Dashboard = () => {
       setBalance(balanceData?.amount || 0);
 
       // Letzte Transaktionen laden
-      const expensesData = await fetchExpenses(user.id, 5);
+      const expensesData = await fetchExpenses(user.id, 10);
       setTransactions(expensesData || []);
+
+      // Einnahmen laden
+      const incomesData = await fetchIncomes(user.id, 10); // Lade die letzten 10 Einnahmen
+      setIncomes(incomesData || []);
+
+      // Kombiniere und sortiere Ausgaben und Einnahmen nach Datum
+      const combined = [
+        ...expensesData.map((expense) => ({
+          ...expense,
+          transactionType: "expense",
+          displayAmount: `-${formatAmount(expense.amount)}`,
+        })),
+        ...incomesData.map((income) => ({
+          ...income,
+          transactionType: "income",
+          displayAmount: `+${formatAmount(income.amount)}`,
+        })),
+      ]
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5); // Sortiere nach Datum und nimm die 5 neuesten
+
+      setCombinedTransactions(combined);
 
       // Fixkosten laden (falls im Dashboard angezeigt)
       const fixedCostsData = await fetchFixedCosts(user.id);
@@ -115,9 +140,13 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await signOut();
-      // Die ProtectedRoute wird automatisch auf die Login-Seite umleiten
+      // Nach dem Abmelden zum Login-Bildschirm umleiten
+      navigate("/login");
     } catch (error) {
       console.error("Fehler beim Abmelden:", error);
+      // Selbst bei einem Fehler zum Login-Bildschirm umleiten
+      // Das verbessert die UX, damit Benutzer nicht stecken bleiben
+      navigate("/login");
     }
   };
 
@@ -152,6 +181,7 @@ const Dashboard = () => {
               <li onClick={() => navigate("/categories")}>Kategorien</li>
               <li onClick={() => navigate("/fixed-costs")}>Fixkosten</li>
               <li onClick={() => navigate("/expenses")}>Alle Ausgaben</li>
+              <li onClick={() => navigate("/incomes")}>Alle Einnahmen</li>
               <li onClick={() => navigate("/planned-expenses")}>
                 Geplante Ausgaben
               </li>
@@ -182,17 +212,26 @@ const Dashboard = () => {
       <div className="transactions-section">
         <div className="section-header">
           <h3 className="section-title">Letzte Transaktionen</h3>
-          <button
-            className="view-all-button"
-            onClick={() => navigate("/expenses")}
-          >
-            Alle anzeigen
-          </button>
+          <div>
+            <button
+              className="view-all-button"
+              onClick={() => navigate("/expenses")}
+              style={{ marginRight: "10px" }}
+            >
+              Ausgaben
+            </button>
+            <button
+              className="view-all-button"
+              onClick={() => navigate("/incomes")}
+            >
+              Einnahmen
+            </button>
+          </div>
         </div>
 
         {error && <div className="error-message">{error}</div>}
 
-        {transactions.length === 0 ? (
+        {combinedTransactions.length === 0 ? (
           <div className="empty-state">
             <p>Keine Transaktionen vorhanden</p>
             <button
@@ -203,18 +242,38 @@ const Dashboard = () => {
             </button>
           </div>
         ) : (
-          <TransactionList
-            transactions={transactions}
-            onTransactionDelete={(deletedId) => {
-              // Lokale Transaktionen aktualisieren nach dem Löschen
-              setTransactions((prevTransactions) =>
-                prevTransactions.filter((t) => t.id !== deletedId)
-              );
-
-              // Nach dem Löschen auch Kontostand aktualisieren
-              loadData();
-            }}
-          />
+          <ul className="transaction-list">
+            {combinedTransactions.map((transaction) => (
+              <li
+                key={`${transaction.transactionType}-${transaction.id}`}
+                className="transaction-item"
+                onClick={() =>
+                  navigate(`/${transaction.transactionType}s/${transaction.id}`)
+                }
+              >
+                <div className="transaction-info">
+                  <div className="transaction-name">{transaction.name}</div>
+                  <div className="transaction-category">
+                    {transaction.categories?.name || "Ohne Kategorie"}
+                  </div>
+                </div>
+                <div className="transaction-details">
+                  <div
+                    className={`transaction-amount ${
+                      transaction.transactionType === "income"
+                        ? "income-amount"
+                        : "expense-amount"
+                    }`}
+                  >
+                    {transaction.displayAmount}
+                  </div>
+                  <div className="transaction-date">
+                    {formatDate(transaction.date)}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
